@@ -74,6 +74,29 @@ french_monarchs = [
     ("Napoleon III", 1852, 1870)  # Emperor of the French, Second Empire
 ]
 
+french_poets = [
+    # ("Clément Marot", 1496, 1544, "Renaissance"),
+    ("Joachim du Bellay", 1522, 1560, "Renaissance"),
+    ("Pierre de Ronsard", 1524, 1585, "Renaissance"),
+    # ("François Malherbe", 1555, 1628, "Baroque"),
+    # ("Théophile de Viau", 1590, 1626, "Baroque"),
+    ("Jean de La Fontaine", 1621, 1695, "Baroque"),
+    ("Voltaire", 1694, 1778, "Classical"),
+    ("Jean-Jacques Rousseau", 1712, 1778, "Classical"),
+    # ("André Chénier", 1762, 1794, "Classical"),
+    ("Alphonse de Lamartine", 1790, 1869, "Romantic"),
+    ("Victor Hugo", 1802, 1885, "Romantic"),
+    ("Alfred de Musset", 1810, 1857, "Romantic"),
+    ("Paul Verlaine", 1844, 1896, "Modern"),
+    ("Arthur Rimbaud", 1854, 1891, "Modern"),
+    ("Guillaume Apollinaire", 1880, 1918, "Modern"),
+    ("Paul Éluard", 1895, 1952, "Modern"),
+    ("Jacques Prévert", 1900, 1977, "Modern"),
+    # ("Yves Bonnefoy", 1923, 2016, "Contemporary"),
+    ("Andrée Chedid", 1920, 2011, "Contemporary"),
+    ("Michel Houellebecq", 1956, current_year, "Contemporary")
+]
+
 # Periods (start, end, name)
 periods = [
     (1500, 1600, "Renaissance"),
@@ -126,6 +149,8 @@ for i, (musician, start, end, era) in enumerate(musicians):
     #     ax.axhline(y=i + 0.5, color='gray', linestyle='--', linewidth=0.5)  # Horizontal separator
     musician_y_pos += 1  # Stagger vertically to avoid overlap
 
+# Separate musicians and monarchs
+ax.axhline(y=0, linewidth=2, color="r")
 
 # Plot British Monarchs on a separate row below composers
 monarch_y_pos = -1
@@ -141,8 +166,12 @@ for i, (monarch, start, end) in enumerate(french_monarchs):
     draw_label(monarch, start, end, monarch_y_pos, color="brown")
     monarch_y_pos -= 1  # Stagger vertically to avoid overlap
 
-# Separate musicians and monarchs
-ax.axhline(y=0, linewidth=2, color="r")
+ax.axhline(y=monarch_y_pos + 0.5, linewidth=1, color="red")
+
+# Plot poets
+for i, (monarch, start, end, era) in enumerate(french_poets):
+    draw_label(monarch.split(" ")[-1], start, end, monarch_y_pos, color="brown")
+    monarch_y_pos -= 1  # Stagger vertically to avoid overlap
 
 # Adding periods (like Renaissance, Baroque etc.)
 for start, end, name in periods:
@@ -164,7 +193,7 @@ for start, end, name in periods:
     )  # Period label on top
 
 # Customizing the plot
-ax.set_yticks([])  # Remove y-ticks
+# ax.set_yticks([])  # Remove y-ticks
 ax.set_title("Music History Timeline with British Monarchs")
 
 # major
@@ -183,7 +212,5 @@ ax.set_ylim(monarch_y_pos - 1, musician_y_pos + 1)
 
 # Show the plot
 plt.tight_layout()
-plt.show()
-
-
 plt.savefig("timeline1.svg", format="svg")
+plt.show()
